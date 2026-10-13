@@ -1,63 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing Cards</title>
 <style>
-.pricing {
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+
+body {
+margin: 0;
+padding: 40px 16px;
+font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+background: #f5f6f8;
+}
+
+.cards {
+display: flex;
+flex-wrap: wrap;
+gap: 24px;
+justify-content: center;
+}
+
+.card {
 width: 300px;
-margin: auto;
+margin: 0;
 background-color: #fff;
-box-shdow: 0 0 10px #ccc;
-padding: 10px;
+box-shadow: 0 0 10px #ccc;
+border-radius: 8px;
+padding: 20px;
 text-align: left;
 }
 
-.title {
+.card__title {
+margin: 0 0 8px;
 font-size: 22px;
 font-weight: bold;
 }
 
-.price {
+.card__price {
+margin: 0 0 16px;
 font-size: 18px;
 color: green;
 }
 
-.features {
+.card__features {
 list-style: none;
+margin: 0 0 16px;
 padding-left: 0;
 }
 
-.features li {
-padding: 4px;
+.card__features li {
+padding: 8px 4px;
 border-bottom: 1px solid #eee;
 }
 
-.btn {
-background: blue;
-color: white;
-padding: 10px 20px;
-border: none;
-margin-top: 10px;
+.card__features li:last-child {
+border-bottom: none;
 }
 
-.btn:hover {
+.card__action {
+display: block;
+width: 100%;
+margin-top: 8px;
+padding: 10px 20px;
+border: none;
+border-radius: 4px;
+background: blue;
+color: white;
+font-size: 16px;
+cursor: pointer;
+}
+
+.card__action:hover {
 background: darkblue;
 }
 </style>
 </head>
 <body>
 
-<div class="pricing">
-<h2 class="title">Basic Plan<h2>
-<p class="price">$9.99 /month</p>
+<div class="cards" id="cards"></div>
 
-<ul class="features">
-<li>1 GB Storage</li>
-<li>Basic Support</li>
-<li>All Core Features</li>
-</ul>
+<script>
+function createCard({ title, price, features, cta = "Start Trial" }) {
+const card = document.createElement("div");
+card.className = "card";
 
-<button class="btn">Start Trial</button>
-</div>
+const heading = document.createElement("h2");
+heading.className = "card__title";
+heading.textContent = title;
+
+const priceEl = document.createElement("p");
+priceEl.className = "card__price";
+priceEl.textContent = price;
+
+const list = document.createElement("ul");
+list.className = "card__features";
+for (const feature of features) {
+const item = document.createElement("li");
+item.textContent = feature;
+list.appendChild(item);
+}
+
+const button = document.createElement("button");
+button.className = "card__action";
+button.type = "button";
+button.textContent = cta;
+
+card.append(heading, priceEl, list, button);
+return card;
+}
+
+const plans = [
+{
+title: "Basic Plan",
+price: "$9.99 /month",
+features: ["1 GB Storage", "Basic Support", "All Core Features"],
+cta: "Start Trial",
+},
+{
+title: "Pro Plan",
+price: "$29.99 /month",
+features: ["50 GB Storage", "Priority Support", "Advanced Analytics"],
+cta: "Choose Pro",
+},
+];
+
+const container = document.getElementById("cards");
+for (const plan of plans) {
+container.appendChild(createCard(plan));
+}
+</script>
 
 </body>
 </html>
